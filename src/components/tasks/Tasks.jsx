@@ -33,6 +33,19 @@ const Tasks = () => {
         console.log(task)
     }
 
+    const keyDown = (e) => {
+        if (e.keyCode === 13 || e.keyCode === 32) {
+            onSubmit()
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('keydown', keyDown)
+        return () => {
+            document.removeEventListener('keydown', keyDown)
+        }
+    })
+
     const onChange = (e) => {
         setInput(e.target.value)
     }
