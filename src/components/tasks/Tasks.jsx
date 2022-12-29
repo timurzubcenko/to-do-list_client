@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import Task from '../task/Task';
 import styles from './Tasks.module.css'
 import axios from 'axios'
+const API_URL = process.env.REACT_APP_API_URL
 
 const Tasks = () => {
     const [input, setInput] = useState('')
     const [tasks, setTasks] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:8000/api/tasks/')
+        axios.get(API_URL + 'api/tasks/')
             .then((res) => {
                 // console.log(res.data)
                 setTasks(res.data)
@@ -20,7 +21,7 @@ const Tasks = () => {
 
     const onSubmit = () => {
         let task = { title: input, done: false, delete: false }
-        axios.post('http://localhost:8000/api/tasks', task)
+        axios.post(API_URL + 'api/tasks', task)
             .then(res => {
                 console.log(res)
                 setInput('')
@@ -37,7 +38,7 @@ const Tasks = () => {
     }
 
     const onDeleteClick = (id) => {
-        axios.delete('http://localhost:8000/api/tasks/' + id)
+        axios.delete(API_URL + 'api/tasks/' + id)
             .then(res => {
                 setTasks(tasks.filter(t => t._id !== id))
             })
@@ -47,7 +48,7 @@ const Tasks = () => {
     }
 
     const doneTask = (id) => {
-        axios.get('http://localhost:8000/api/tasks/done/' + id)
+        axios.get(API_URL + 'api/tasks/done/' + id)
             .then(res => {
                 setTasks(tasks.map((task) => {
                     return task._id === id ? { ...task, done: res.data.done } : task
